@@ -7,6 +7,7 @@ import { Contato } from "@/components/contato";
 import { Diagnostico } from "@/components/diagnostico";
 import { HomeHero } from "@/components/home-hero";
 import { Metodo } from "@/components/metodo";
+import { Outdoor } from "@/components/outdoor";
 import { MotionRestricoes } from "@/components/motion-restricoes";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -40,6 +41,7 @@ function Home() {
           </div>
           <MotionRestricoes />
         </section>
+        <Outdoor />
         <Diagnostico />
         <Metodo />
         <CaseG360 />

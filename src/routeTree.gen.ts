@@ -15,6 +15,7 @@ import { Route as MentesRouteImport } from './routes/mentes'
 import { Route as PoliticaDePrivacidadeRouteImport } from './routes/politica-de-privacidade'
 import { Route as SolucoesRouteImport } from './routes/solucoes'
 import { Route as TermosDeUsoRouteImport } from './routes/termos-de-uso'
+import { Route as XClubRouteImport } from './routes/x-club'
 import { Route as ApiNovoLeadRouteImport } from './routes/api.novo-lead'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const TermosDeUsoRoute = TermosDeUsoRouteImport.update({
   path: '/termos-de-uso',
   getParentRoute: () => rootRouteImport,
 } as any)
+const XClubRoute = XClubRouteImport.update({
+  id: '/x-club',
+  path: '/x-club',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiNovoLeadRoute = ApiNovoLeadRouteImport.update({
   id: '/api/novo-lead',
   path: '/api/novo-lead',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/solucoes': typeof SolucoesRoute
   '/termos-de-uso': typeof TermosDeUsoRoute
+  '/x-club': typeof XClubRoute
   '/api/novo-lead': typeof ApiNovoLeadRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/solucoes': typeof SolucoesRoute
   '/termos-de-uso': typeof TermosDeUsoRoute
+  '/x-club': typeof XClubRoute
   '/api/novo-lead': typeof ApiNovoLeadRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/politica-de-privacidade': typeof PoliticaDePrivacidadeRoute
   '/solucoes': typeof SolucoesRoute
   '/termos-de-uso': typeof TermosDeUsoRoute
+  '/x-club': typeof XClubRoute
   '/api/novo-lead': typeof ApiNovoLeadRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/politica-de-privacidade'
     | '/solucoes'
     | '/termos-de-uso'
+    | '/x-club'
     | '/api/novo-lead'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/politica-de-privacidade'
     | '/solucoes'
     | '/termos-de-uso'
+    | '/x-club'
     | '/api/novo-lead'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/politica-de-privacidade'
     | '/solucoes'
     | '/termos-de-uso'
+    | '/x-club'
     | '/api/novo-lead'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   PoliticaDePrivacidadeRoute: typeof PoliticaDePrivacidadeRoute
   SolucoesRoute: typeof SolucoesRoute
   TermosDeUsoRoute: typeof TermosDeUsoRoute
+  XClubRoute: typeof XClubRoute
   ApiNovoLeadRoute: typeof ApiNovoLeadRoute
 }
 
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermosDeUsoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/x-club': {
+      id: '/x-club'
+      path: '/x-club'
+      fullPath: '/x-club'
+      preLoaderRoute: typeof XClubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/novo-lead': {
       id: '/api/novo-lead'
       path: '/api/novo-lead'
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   PoliticaDePrivacidadeRoute: PoliticaDePrivacidadeRoute,
   SolucoesRoute: SolucoesRoute,
   TermosDeUsoRoute: TermosDeUsoRoute,
+  XClubRoute: XClubRoute,
   ApiNovoLeadRoute: ApiNovoLeadRoute,
 }
 export const routeTree = rootRouteImport

@@ -9,6 +9,7 @@ export const NAV: Array<{ href: string; label: string; pagina?: boolean; destaqu
   { href: "/mentes", label: "Mentes e Método", pagina: true },
   { href: "/#diagnostico", label: "Diagnóstico" },
   { href: "/solucoes", label: "Soluções", pagina: true },
+  { href: "/x-club", label: "X-Club", pagina: true, destaque: true },
   { href: "/enterprise", label: "Enterprise", pagina: true, destaque: true },
   { href: "/#contato", label: "Contato" },
 ];
@@ -62,7 +63,10 @@ export function SiteHeader() {
           <img src="/logo-ecsilab.png" alt="Écsilab" className="h-8 w-auto" />
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
+        <nav
+          className="hidden items-center gap-4 whitespace-nowrap lg:gap-7 md:flex"
+          aria-label="Principal"
+        >
           {NAV.map((item) => {
             const atual = item.pagina
               ? item.href === "/"
@@ -91,7 +95,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <a
             href="/#contato"
-            className="hidden btn-neon rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink sm:inline-block"
+            className="hidden btn-neon whitespace-nowrap rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink xl:inline-block"
           >
             Agendar diagnóstico
           </a>

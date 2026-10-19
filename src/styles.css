@@ -352,3 +352,41 @@ section[id] {
 @media (prefers-reduced-motion: reduce) {
   .eco-card { animation: none; }
 }
+
+/* ---------- X-Club: sub-identidade (papel creme, tinta preta, marca-texto amarelo) ---------- */
+.xc-papel {
+  background: #f4f0e3;
+  color: #0b0b0c;
+}
+.xc-marca {
+  background: linear-gradient(transparent 58%, #fdca0a 58%, #fdca0a 92%, transparent 92%);
+  padding: 0 0.1em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.xc-card {
+  background: #fff;
+  border: 2px solid #0b0b0c;
+  border-radius: 1.25rem;
+  box-shadow: 5px 5px 0 #0b0b0c;
+  color: #0b0b0c;
+}
+.xc-btn {
+  box-shadow: 4px 4px 0 #0b0b0c;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+.xc-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #0b0b0c;
+}
+.xc-ticket {
+  position: relative;
+  background: #f4f0e3;
+  border-radius: 1.5rem;
+  -webkit-mask: radial-gradient(circle 14px at 0 118px, #0000 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 14px at 100% 118px, #0000 98%, #000) right / 51% 100% no-repeat;
+  mask: radial-gradient(circle 14px at 0 118px, #0000 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 14px at 100% 118px, #0000 98%, #000) right / 51% 100% no-repeat;
+}
