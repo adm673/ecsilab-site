@@ -389,7 +389,7 @@ export function Outdoor() {
                   pointerEvents: k === i ? "auto" : "none",
                 }}
               >
-                <div>
+                <div className="relative z-10">
                   <p
                     className="mb-4 inline-block rounded-full border-2 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.18em]"
                     style={{ borderColor: b.tinta }}
