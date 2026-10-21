@@ -1,0 +1,11 @@
+/* Ajuste o tamanho do texto do motion com --ms (ex.: 0.8 = 20% menor, 1.2 = 20% maior) */
+:root{--ms:0.5}
+/* Motion do slogan na Hero. Escala pela largura do próprio palco (cqw). */
+.cm{position:relative;width:100%;height:100%;container-type:size;overflow:hidden;color:#131A1C;cursor:pointer;user-select:none}
+.cm .layer{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.cm .kicker{font:800 calc(1.5cqw*var(--ms,1))/1 'Sansita',serif;letter-spacing:.42em;text-transform:uppercase;padding-left:.42em;margin-bottom:calc(2.2cqw*var(--ms,1))}
+.cm .mova{font:800 calc(11.5cqw*var(--ms,1))/.95 'Sansita',serif;letter-spacing:-.02em}
+.cm .plate{width:max-content;max-width:none;flex-shrink:0;margin-top:calc(2.2cqw*var(--ms,1));display:inline-flex;align-items:center;background:#131A1C;color:#fff;border-radius:calc(1.6cqw*var(--ms,1));padding:calc(1.3cqw*var(--ms,1)) calc(2.4cqw*var(--ms,1)) calc(1.5cqw*var(--ms,1));min-width:calc(6cqw*var(--ms,1));min-height:calc(8.4cqw*var(--ms,1));
+  font:800 calc(5.6cqw*var(--ms,1))/1.2 'JetBrains Mono',ui-monospace,monospace;letter-spacing:-.03em;white-space:pre;transform:rotate(-1.5deg);box-shadow:0 calc(1.6cqw*var(--ms,1)) calc(3cqw*var(--ms,1)) calc(-1.2cqw*var(--ms,1)) rgba(19,26,28,.55)}
+.cm .caret{display:inline-block;width:calc(.45cqw*var(--ms,1));height:calc(5.8cqw*var(--ms,1));background:#F5AD41;margin-left:calc(.7cqw*var(--ms,1));border-radius:calc(.1cqw*var(--ms,1))}
+.cm .ring{position:absolute;left:50%;top:50%;width:calc(8cqw*var(--ms,1));height:calc(8cqw*var(--ms,1));margin:calc(-4cqw*var(--ms,1)) 0 0 calc(-4cqw*var(--ms,1));border:calc(.4cqw*var(--ms,1)) solid #131A1C;border-radius:50%;opacity:0;pointer-events:none}
