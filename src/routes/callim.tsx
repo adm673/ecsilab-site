@@ -164,9 +164,27 @@ function Materiais({ docs }: { docs: DocPortal[] }) {
     };
   }, [aberto]);
 
-  async function baixar(doc: DocPortal) {
+  async function abrir(doc: DocPortal) {
     const url = await linkTemporario(doc.caminho);
     if (url) window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  async function baixar(doc: DocPortal, conteudo: string | null) {
+    const nomeDoArquivo = doc.caminho.split("/").pop() ?? doc.titulo;
+    if (doc.formato === "html" && conteudo !== null) {
+      const arquivo = new Blob([conteudo], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(arquivo);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = nomeDoArquivo;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      return;
+    }
+    const url = await linkTemporario(doc.caminho, nomeDoArquivo);
+    if (url) window.location.assign(url);
   }
 
   return (
@@ -208,6 +226,18 @@ function Materiais({ docs }: { docs: DocPortal[] }) {
           </nav>
 
           <section className="min-h-[70vh] overflow-hidden rounded-lg border border-line bg-white">
+            {aberto ? (
+              <div className="flex items-center justify-between gap-3 border-b border-black/10 bg-white px-4 py-2 text-ink">
+                <p className="truncate text-sm font-semibold">{aberto.titulo}</p>
+                <button
+                  onClick={() => void baixar(aberto, html)}
+                  disabled={aberto.formato === "html" && html === null}
+                  className="shrink-0 rounded-md bg-accent px-3 py-1.5 text-sm font-semibold text-ink disabled:opacity-60"
+                >
+                  Baixar arquivo
+                </button>
+              </div>
+            ) : null}
             {!aberto ? null : aberto.formato === "html" ? (
               falhou ? (
                 <p className="p-6 text-ink">Não foi possível abrir este material agora.</p>
@@ -218,14 +248,14 @@ function Materiais({ docs }: { docs: DocPortal[] }) {
                   title={aberto.titulo}
                   srcDoc={html}
                   sandbox="allow-scripts allow-popups"
-                  className="h-[80vh] w-full"
+                  className="h-[75vh] w-full"
                 />
               )
             ) : (
               <div className="p-6 text-ink">
                 <p className="font-semibold">{aberto.titulo}</p>
                 <button
-                  onClick={() => void baixar(aberto)}
+                  onClick={() => void abrir(aberto)}
                   className="mt-4 rounded-md bg-ink px-4 py-2 text-paper"
                 >
                   Abrir arquivo

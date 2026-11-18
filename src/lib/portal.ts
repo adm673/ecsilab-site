@@ -71,8 +71,13 @@ export async function lerTexto(caminho: string): Promise<string | null> {
   return error || !data ? null : await data.text();
 }
 
-export async function linkTemporario(caminho: string): Promise<string | null> {
+export async function linkTemporario(
+  caminho: string,
+  baixarComo?: string,
+): Promise<string | null> {
   if (!portal) return null;
-  const { data, error } = await portal.storage.from(BUCKET).createSignedUrl(caminho, 600);
+  const { data, error } = await portal.storage
+    .from(BUCKET)
+    .createSignedUrl(caminho, 600, baixarComo ? { download: baixarComo } : undefined);
   return error || !data ? null : data.signedUrl;
 }
