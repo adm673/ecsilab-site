@@ -11,7 +11,13 @@ export const portal =
 
 export const BUCKET = "portal";
 
-export type DocPortal = { caminho: string; titulo: string; formato: "html" | "pdf" | "outro" };
+export type DocPortal = {
+  caminho: string;
+  titulo: string;
+  formato: "html" | "pdf" | "outro";
+  /** Data da última atualização do arquivo (ISO), quando o armazenamento informa. */
+  atualizadoEm?: string | undefined;
+};
 
 /** "01-planejamento-dezembro-janeiro.html" vira "Planejamento dezembro janeiro". */
 export function tituloDoArquivo(nome: string): string {
@@ -62,6 +68,7 @@ export async function listarDocs(cliente: string): Promise<DocPortal[]> {
       caminho: `${cliente}/${f.name}`,
       titulo: tituloDoArquivo(f.name),
       formato: formatoDe(f.name),
+      atualizadoEm: f.updated_at ?? f.created_at ?? undefined,
     }));
 }
 
