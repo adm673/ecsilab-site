@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 
 import {
+  apagarArquivo,
+  ehAdmin,
+  enviarArquivo,
   entrar,
   linkTemporario,
   lerTexto,
@@ -29,13 +32,20 @@ type Estado = "carregando" | "login" | "sem-acesso" | "ok";
 function AreaCallim() {
   const [estado, setEstado] = useState<Estado>("carregando");
   const [docs, setDocs] = useState<DocPortal[]>([]);
+  const [admin, setAdmin] = useState(false);
+
+  async function recarregarDocs() {
+    setDocs(await listarDocs(CLIENTE));
+  }
 
   async function carregar() {
     if (!portal) return setEstado("login");
     const { data } = await portal.auth.getSession();
     if (!data.session) return setEstado("login");
-    if (!(await temAcesso(CLIENTE))) return setEstado("sem-acesso");
-    setDocs(await listarDocs(CLIENTE));
+    const adm = await ehAdmin();
+    if (!adm && !(await temAcesso(CLIENTE))) return setEstado("sem-acesso");
+    setAdmin(adm);
+    await recarregarDocs();
     setEstado("ok");
   }
 
@@ -71,7 +81,7 @@ function AreaCallim() {
       </Tela>
     );
   }
-  return <Materiais docs={docs} />;
+  return <Materiais docs={docs} admin={admin} recarregar={recarregarDocs} />;
 }
 
 function Tela({ children }: { children: React.ReactNode }) {
@@ -142,8 +152,55 @@ function Login() {
   );
 }
 
-function Materiais({ docs }: { docs: DocPortal[] }) {
+function Materiais({
+  docs,
+  admin,
+  recarregar,
+}: {
+  docs: DocPortal[];
+  admin: boolean;
+  recarregar: () => Promise<void>;
+}) {
   const [aberto, setAberto] = useState<DocPortal | null>(docs[0] ?? null);
+  const [apagando, setApagando] = useState<string | null>(null);
+  const [aviso, setAviso] = useState<string | null>(null);
+  const [enviando, setEnviando] = useState(false);
+
+  useEffect(() => {
+    // Mantém o material aberto coerente depois de enviar ou apagar.
+    setAberto((atual) => docs.find((d) => d.caminho === atual?.caminho) ?? docs[0] ?? null);
+  }, [docs]);
+
+  async function enviar(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const campo = e.currentTarget.elements.namedItem("arquivos") as HTMLInputElement;
+    const arquivos = Array.from(campo.files ?? []);
+    if (arquivos.length === 0) return setAviso("Escolha um ou mais arquivos.");
+    setEnviando(true);
+    setAviso(null);
+    const erros: string[] = [];
+    for (const a of arquivos) {
+      const erro = await enviarArquivo(CLIENTE, a);
+      if (erro) erros.push(erro);
+    }
+    await recarregar();
+    campo.value = "";
+    setEnviando(false);
+    setAviso(
+      erros.length
+        ? erros.join(" ")
+        : `${arquivos.length === 1 ? "Arquivo enviado" : "Arquivos enviados"}. Arquivo com o mesmo nome é substituído.`,
+    );
+  }
+
+  async function apagar(doc: DocPortal) {
+    if (apagando !== doc.caminho) return setApagando(doc.caminho);
+    setApagando(null);
+    const erro = await apagarArquivo(doc.caminho);
+    setAviso(erro ?? `${doc.titulo} apagado.`);
+    await recarregar();
+  }
+
   const [html, setHtml] = useState<string | null>(null);
   const [falhou, setFalhou] = useState(false);
 
@@ -204,24 +261,68 @@ function Materiais({ docs }: { docs: DocPortal[] }) {
         </button>
       </header>
 
+      {admin ? (
+        <form
+          onSubmit={enviar}
+          className="mt-6 rounded-lg border border-line p-4"
+          aria-label="Enviar materiais"
+        >
+          <p className="text-sm font-semibold">Enviar materiais (equipe Écsilab)</p>
+          <p className="mt-1 text-xs text-paper/60">
+            HTML, PDF, TXT ou MD, até 20 MB. O nome do arquivo vira o título para o cliente.
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <input
+              name="arquivos"
+              type="file"
+              multiple
+              accept=".html,.pdf,.txt,.md"
+              className="text-sm"
+            />
+            <button
+              type="submit"
+              disabled={enviando}
+              className="rounded-md bg-accent px-3 py-1.5 text-sm font-semibold text-ink disabled:opacity-60"
+            >
+              {enviando ? "Enviando…" : "Enviar"}
+            </button>
+          </div>
+          {aviso ? (
+            <p role="status" className="mt-3 text-sm text-paper/80">
+              {aviso}
+            </p>
+          ) : null}
+        </form>
+      ) : null}
+
       {docs.length === 0 ? (
         <p className="mt-10 text-paper/70">Ainda não há materiais publicados.</p>
       ) : (
         <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
           <nav aria-label="Materiais" className="space-y-2">
             {docs.map((d) => (
-              <button
-                key={d.caminho}
-                onClick={() => setAberto(d)}
-                className={`block w-full rounded-md border px-3 py-2 text-left text-sm ${
-                  aberto?.caminho === d.caminho
-                    ? "border-accent bg-accent/10"
-                    : "border-line hover:border-accent/60"
-                }`}
-              >
-                {d.titulo}
-                <span className="ml-2 text-xs uppercase text-paper/50">{d.formato}</span>
-              </button>
+              <div key={d.caminho}>
+                <button
+                  onClick={() => setAberto(d)}
+                  className={`block w-full rounded-md border px-3 py-2 text-left text-sm ${
+                    aberto?.caminho === d.caminho
+                      ? "border-accent bg-accent/10"
+                      : "border-line hover:border-accent/60"
+                  }`}
+                >
+                  {d.titulo}
+                  <span className="ml-2 text-xs uppercase text-paper/50">{d.formato}</span>
+                </button>
+                {admin ? (
+                  <button
+                    onClick={() => void apagar(d)}
+                    onBlur={() => setApagando(null)}
+                    className="mt-1 text-xs text-red-400 hover:underline"
+                  >
+                    {apagando === d.caminho ? "Clique de novo para apagar" : "Apagar"}
+                  </button>
+                ) : null}
+              </div>
             ))}
           </nav>
 

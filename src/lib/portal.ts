@@ -71,13 +71,57 @@ export async function lerTexto(caminho: string): Promise<string | null> {
   return error || !data ? null : await data.text();
 }
 
-export async function linkTemporario(
-  caminho: string,
-  baixarComo?: string,
-): Promise<string | null> {
+export async function linkTemporario(caminho: string, baixarComo?: string): Promise<string | null> {
   if (!portal) return null;
   const { data, error } = await portal.storage
     .from(BUCKET)
     .createSignedUrl(caminho, 600, baixarComo ? { download: baixarComo } : undefined);
   return error || !data ? null : data.signedUrl;
+}
+
+/** Equipe Écsilab: pode enviar, substituir e apagar materiais. A regra real fica no banco (RLS). */
+export async function ehAdmin(): Promise<boolean> {
+  if (!portal) return false;
+  const { data, error } = await portal.from("portal_admins").select("user_id").limit(1);
+  return !error && Array.isArray(data) && data.length > 0;
+}
+
+/** Mantém letras (com acento), números, espaço, ponto, hífen, sublinhado e parênteses. */
+export function nomeSeguro(nome: string): string {
+  const limpo = nome
+    .normalize("NFC")
+    .replace(/[^\p{L}\p{N} ._()-]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return limpo || "arquivo";
+}
+
+const TIPOS: Record<string, string> = {
+  html: "text/html",
+  pdf: "application/pdf",
+  txt: "text/plain",
+  md: "text/markdown",
+};
+
+export function extensaoPermitida(nome: string): boolean {
+  const ext = nome.split(".").pop()?.toLowerCase() ?? "";
+  return ext in TIPOS;
+}
+
+/** Envia (ou substitui) um arquivo na pasta do cliente. Devolve uma mensagem de erro ou null. */
+export async function enviarArquivo(cliente: string, arquivo: File): Promise<string | null> {
+  if (!portal) return "O envio está indisponível no momento.";
+  const nome = nomeSeguro(arquivo.name);
+  const ext = nome.split(".").pop()?.toLowerCase() ?? "";
+  if (!(ext in TIPOS)) return `${nome}: use arquivos HTML, PDF, TXT ou MD.`;
+  const { error } = await portal.storage
+    .from(BUCKET)
+    .upload(`${cliente}/${nome}`, arquivo, { upsert: true, contentType: TIPOS[ext] });
+  return error ? `${nome}: não foi possível enviar (${error.message}).` : null;
+}
+
+export async function apagarArquivo(caminho: string): Promise<string | null> {
+  if (!portal) return "A exclusão está indisponível no momento.";
+  const { error } = await portal.storage.from(BUCKET).remove([caminho]);
+  return error ? `Não foi possível apagar (${error.message}).` : null;
 }
