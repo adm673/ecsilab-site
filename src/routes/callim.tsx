@@ -66,7 +66,7 @@ function AreaCallim() {
   if (estado === "carregando") {
     return (
       <Tela>
-        <OvelhaPoeira className="mx-auto w-40" pontos={1400} />
+        <OvelhaPoeira className="mx-auto w-40" />
         <p className="mt-4 text-sm text-paper/60">Carregando…</p>
       </Tela>
     );
@@ -95,7 +95,7 @@ function Tela({ children }: { children: React.ReactNode }) {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
       <div className="tech-grid pointer-events-none absolute inset-0" aria-hidden="true" />
-      <div className="relative w-full max-w-md">{children}</div>
+      <div className="relative z-10 w-full max-w-md">{children}</div>
     </main>
   );
 }
@@ -290,7 +290,7 @@ function Materiais({
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+      <main className="relative z-10 mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         <section className="relative mt-6 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.01]">
           <div className="tech-grid pointer-events-none absolute inset-0" aria-hidden="true" />
           <div className="relative grid items-center gap-2 px-6 py-8 sm:px-10 md:grid-cols-[1.25fr_1fr] md:py-10">
