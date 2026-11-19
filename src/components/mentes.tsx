@@ -22,23 +22,28 @@ const TIME = [
       "Método Rares: processos rastreáveis, replicáveis e escaláveis",
       "Tráfego, funil e máquina de vendas",
     ],
+    citacao: "",
     resultados: true,
   },
   {
     foto: "/marcos-schneider.jpg" as string | null,
     fotoComTexto: false,
-    historia: [] as string[],
+    historia: [
+      "Marcos Schneider é empresário e estrategista de negócios, com atuação multidisciplinar em gestão empresarial, inteligência financeira, controladoria, tecnologia, marketing e desenvolvimento de operações.",
+      "Sua visão combina pensamento estratégico e capacidade de execução, conectando diferentes áreas de uma empresa para transformar desafios complexos em decisões, processos e resultados mensuráveis.",
+      "Com uma abordagem orientada por dados, identifica oportunidades de crescimento, gargalos operacionais e caminhos para aumentar a eficiência, a rentabilidade e a capacidade de expansão dos negócios.",
+      "Na XLAB, atua como COO, contribuindo para a construção de estratégias que integram marketing, vendas, processos, tecnologia e inteligência de negócios. Seu papel é assegurar que o crescimento comercial esteja conectado à realidade financeira e operacional de cada empresa.",
+      "Acredita que empresas verdadeiramente escaláveis são construídas pela combinação de estratégia clara, processos inteligentes, disciplina de execução e decisões fundamentadas em dados. Seu trabalho é transformar essa visão em estruturas que permitam às empresas crescer com mais controle, previsibilidade e consistência.",
+    ] as string[],
     iniciais: "MS",
     nome: "Marcos Schneider",
     cargo: "COO",
-    territorio: "Growth, Marketing, finanças e modelagem de negócio",
-    resumo:
-      "Cuida da operação da Écsilab e do território de Growth, Marketing, finanças e modelagem de negócio: como o crescimento se sustenta nos números, no caixa e no desenho do negócio.",
-    competencias: [
-      "Finanças e saúde do caixa no crescimento",
-      "Modelagem de negócio e de receita",
-      "Operação e governança do crescimento",
-    ],
+    territorio:
+      "Crescimento não é apenas vender mais. É construir empresas capazes de evoluir continuamente.",
+    resumo: "",
+    competencias: [] as string[],
+    citacao:
+      "Crescer é conquistar novos resultados. Escalar é desenvolver a capacidade de reproduzi-los de forma sustentável.",
     resultados: false,
   },
 ];
@@ -98,16 +103,33 @@ export function Mentes() {
                   </h3>
                   <Fio />
                   <p className="mt-3 text-lg font-medium text-accent">{s.territorio}</p>
-                  <p className="mt-6 text-lg leading-relaxed text-paper/75">{s.resumo}</p>
+                  {s.resumo && (
+                    <p className="mt-6 text-lg leading-relaxed text-paper/75">{s.resumo}</p>
+                  )}
+                  {s.historia.length > 0 && (
+                    <div className="mt-6 space-y-4 text-lg leading-relaxed text-paper/75">
+                      {s.historia.map((p) => (
+                        <p key={p}>{p}</p>
+                      ))}
+                    </div>
+                  )}
 
-                  <ul className="mb-8 mt-6 space-y-2 text-paper/90">
-                    {s.competencias.map((c) => (
-                      <li key={c} className="flex gap-3">
-                        <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                        {c}
-                      </li>
-                    ))}
-                  </ul>
+                  {s.competencias.length > 0 && (
+                    <ul className="mb-8 mt-6 space-y-2 text-paper/90">
+                      {s.competencias.map((c) => (
+                        <li key={c} className="flex gap-3">
+                          <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                          {c}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {s.citacao && (
+                    <blockquote className="mb-8 mt-8 border-l-2 border-accent pl-5 text-lg font-medium italic text-paper/90">
+                      “{s.citacao}”
+                    </blockquote>
+                  )}
                 </>
               )}
 
