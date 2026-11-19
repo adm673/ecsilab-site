@@ -11,7 +11,14 @@ import type { ReactNode } from "react";
 import { Mascote } from "../components/animated-icons";
 import { ConsentBanner } from "../components/consent-banner";
 import { WhatsAppFlutuante } from "../components/whatsapp-flutuante";
-import { DESCRICAO_PADRAO, SITE, TITULO_PADRAO } from "../lib/seo";
+import {
+  DESCRICAO_PADRAO,
+  ORGANIZACAO,
+  SITE,
+  SITE_SCHEMA,
+  TITULO_PADRAO,
+  jsonLdScript,
+} from "../lib/seo";
 import appCss from "../styles.css?url";
 
 function NotFound() {
@@ -34,6 +41,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: TITULO_PADRAO },
       { name: "description", content: DESCRICAO_PADRAO },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
+      { name: "theme-color", content: "#0b0b0c" },
       // Prévia ao compartilhar o link (WhatsApp, LinkedIn, Facebook, X): o que vale para o site todo
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
@@ -48,8 +57,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "icon", type: "image/png", href: "/ovelha.png" },
+      { rel: "apple-touch-icon", href: "/ovelha.png" },
       { rel: "stylesheet", href: appCss },
     ],
+    scripts: [jsonLdScript(ORGANIZACAO), jsonLdScript(SITE_SCHEMA)],
   }),
   shellComponent: RootShell,
   component: RootComponent,

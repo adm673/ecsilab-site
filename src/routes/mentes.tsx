@@ -10,6 +10,7 @@ export const Route = createFileRoute("/mentes")({
       descricao:
         "Conheça Marcelo Teles e Marcos Schneider, as mentes por trás da Écsilab e do método Rares (rastreável, replicável e escalável), potencializadas por inteligência artificial.",
       caminho: "/mentes",
+      nome: "Mentes e Método",
     }),
   component: MentesPage,
 });

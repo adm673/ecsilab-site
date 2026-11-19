@@ -1,0 +1,20 @@
+# Écsilab
+
+> Écsilab é uma empresa de Macapá (AP) onde Marketing, Engenharia de Processos, Estratégia de Growth e Máquinas de Vendas se unem para tirar o negócio do improviso. O método combina OKR, Scrum e Teoria das Restrições, com apoio de inteligência artificial.
+
+## Páginas
+
+- [Início](https://ecsilab.com.br/): proposta, método, caso G360, autoavaliação de maturidade e calculadora CAC × LTV.
+- [Soluções](https://ecsilab.com.br/solucoes): serviços de marketing e growth conduzidos pela equipe e soluções de IA prontas para implantar.
+- [X-Club](https://ecsilab.com.br/x-club): marketing local conectado (site, Google, anúncios e canais de contato), a partir de R$ 399/mês, sem promessa de vendas garantidas.
+- [Enterprise](https://ecsilab.com.br/enterprise): departamentos inteiros operando com IA, em pagamento único e com infraestrutura em nome da empresa contratante.
+- [Mentes e Método](https://ecsilab.com.br/mentes): quem está por trás da Écsilab e o método Rares (rastreável, replicável e escalável).
+
+## Institucional
+
+- [Política de Privacidade](https://ecsilab.com.br/politica-de-privacidade)
+- [Termos de Uso](https://ecsilab.com.br/termos-de-uso)
+
+## Contato
+
+- WhatsApp: +55 96 98429-2017
