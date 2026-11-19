@@ -113,6 +113,7 @@ export function SolucoesIA() {
   return (
     <Section id="portfolio">
       <SectionHead
+        as="h1"
         eyebrow="Portfólio Écsilab"
         title="Serviços e soluções de inteligência artificial para a sua operação"
         lead="Do planejamento de marca à implantação de IA: o que a Écsilab entrega, em serviços conduzidos por nós e em soluções prontas para implantar."

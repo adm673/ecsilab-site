@@ -458,7 +458,7 @@ function Investimento() {
             </div>
             <img
               src="/ovelha.png"
-              alt=""
+              alt="Ovelha negra, mascote da Écsilab"
               className="h-14 w-14 rounded-full border-2 border-[#0b0b0c] bg-white object-contain p-1"
             />
           </div>

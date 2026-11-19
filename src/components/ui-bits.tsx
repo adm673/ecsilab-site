@@ -48,15 +48,18 @@ export function SectionHead({
   eyebrow,
   title,
   lead,
+  as: Titulo = "h2",
 }: {
   eyebrow: string;
   title: ReactNode;
   lead?: ReactNode;
+  /** Nível do título. Use "h1" no título principal de páginas que não têm outro h1. */
+  as?: "h1" | "h2";
 }) {
   return (
     <header className="reveal mb-12 max-w-3xl">
       <Eyebrow>{eyebrow}</Eyebrow>
-      <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">{title}</h2>
+      <Titulo className="text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">{title}</Titulo>
       {lead && <p className="mt-5 text-lg leading-relaxed text-paper/75">{lead}</p>}
     </header>
   );
