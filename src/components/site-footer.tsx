@@ -3,10 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { Mascote } from "@/components/animated-icons";
 import { EVENTO_ABRIR_CONSENTIMENTO } from "@/components/consent-banner";
 import { WHATSAPP_EXIBICAO, linkWhatsApp } from "@/lib/contato";
-import { RESPONSAVEL } from "@/lib/legal";
 
 export function SiteFooter() {
-  const r = RESPONSAVEL;
   return (
     <footer>
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12 sm:px-6 md:flex-row md:items-center md:justify-between">
@@ -38,11 +36,7 @@ export function SiteFooter() {
           </nav>
         </div>
         <div className="flex items-center gap-5">
-          <p className="text-sm text-paper/50">
-            © {new Date().getFullYear()} Écsilab.
-            {r.razaoSocial ? ` ${r.razaoSocial}${r.cnpj ? `, CNPJ ${r.cnpj}` : ""}.` : ""} Todos os direitos
-            reservados.
-          </p>
+          <p className="text-sm text-paper/50">© {new Date().getFullYear()} Écsilab.</p>
           <Mascote className="h-16 w-16 shrink-0" />
         </div>
       </div>
