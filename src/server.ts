@@ -3,6 +3,7 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { marcarNoindexEmEnderecoTecnico, redirecionarParaOficial } from "./lib/dominio";
 import { renderErrorPage } from "./lib/error-page";
+import { aplicarCabecalhosDeSeguranca } from "./lib/seguranca";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -53,7 +54,8 @@ export default {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return marcarNoindexEmEnderecoTecnico(request, await normalizeCatastrophicSsrResponse(response));
+      const normal = await normalizeCatastrophicSsrResponse(response);
+      return aplicarCabecalhosDeSeguranca(request, marcarNoindexEmEnderecoTecnico(request, normal));
     } catch (error) {
       console.error(error);
       return new Response(renderErrorPage(), {
