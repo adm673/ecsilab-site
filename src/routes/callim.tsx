@@ -100,7 +100,7 @@ function FundoOvelha() {
       <img
         src="/ovelha-preta.png"
         alt=""
-        className="w-[min(88vw,760px)] max-w-none select-none opacity-90"
+        className="w-[min(88vw,760px)] max-w-none select-none opacity-60"
       />
     </div>
   );
