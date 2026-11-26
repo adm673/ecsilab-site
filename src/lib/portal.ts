@@ -93,11 +93,15 @@ export async function ehAdmin(): Promise<boolean> {
   return !error && Array.isArray(data) && data.length > 0;
 }
 
-/** Mantém letras (com acento), números, espaço, ponto, hífen, sublinhado e parênteses. */
+/**
+ * Gera um nome aceito pelo Supabase Storage (a chave só aceita ASCII):
+ * remove acentos (ú→u, ç→c) e mantém letras, números, espaço, ponto, hífen, sublinhado e parênteses.
+ */
 export function nomeSeguro(nome: string): string {
   const limpo = nome
-    .normalize("NFC")
-    .replace(/[^\p{L}\p{N} ._()-]/gu, "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Za-z0-9 ._()-]/g, "")
     .replace(/\s+/g, " ")
     .trim();
   return limpo || "arquivo";
