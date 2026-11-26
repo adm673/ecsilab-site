@@ -13,7 +13,14 @@ const BRANCO = "255,255,255";
  * O canvas é fixo na tela, atrás do conteúdo, e a ovelha acompanha a caixa ao rolar a página.
  * Os pontos vêm de /ovelha-particulas.json. Sem movimento, quando o sistema pede menos animação.
  */
-export function OvelhaPoeira({ className = "" }: { className?: string }) {
+export function OvelhaPoeira({
+  className = "",
+  pairar = false,
+}: {
+  className?: string;
+  /** Poeira só pairando pela tela, esperando para se juntar. Sem montar a ovelha. */
+  pairar?: boolean;
+}) {
   const caixaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -84,16 +91,18 @@ export function OvelhaPoeira({ className = "" }: { className?: string }) {
 
       const visivel = b.bottom > -S && b.top < ch + S;
       const montando = e < 5; // enquanto a poeira ainda chega, ela cruza a tela inteira
-      if (n > 0 && (visivel || montando) && S > 4) {
+      if (n > 0 && (pairar || ((visivel || montando) && S > 4))) {
         const respiro = 1 + 0.014 * Math.sin(e * 0.9);
         const raio = S * 0.14;
         const r = Math.max(0.5, S * 0.0019);
 
-        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, S * 0.6);
-        g.addColorStop(0, `rgba(${AMARELO},0.10)`);
-        g.addColorStop(1, `rgba(${AMARELO},0)`);
-        ctx.fillStyle = g;
-        ctx.fillRect(cx - S, cy - S, S * 2, S * 2);
+        if (!pairar) {
+          const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, S * 0.6);
+          g.addColorStop(0, `rgba(${AMARELO},0.10)`);
+          g.addColorStop(1, `rgba(${AMARELO},0)`);
+          ctx.fillStyle = g;
+          ctx.fillRect(cx - S, cy - S, S * 2, S * 2);
+        }
 
         // onda de luz que atravessa a ovelha da esquerda para a direita
         const onda = e > 4 ? (((e - 4) * 0.2) % 1.7) - 0.6 : -9;
@@ -111,7 +120,13 @@ export function OvelhaPoeira({ className = "" }: { className?: string }) {
             const alvoY = cy + ry[i]! * respiro * S + Math.sin(w * 1.13) * oa;
             let px = alvoX;
             let py = alvoY;
-            if (p < 1) {
+            if (pairar) {
+              // paira à deriva pela tela, devagar, sem formar a ovelha
+              const a = 12000 * orbita[i]!;
+              const t = reduzir ? 0 : e;
+              px = sx[i]! + Math.cos(t * freq[i]! * 0.4 + fase[i]!) * a;
+              py = sy[i]! + Math.sin(t * freq[i]! * 0.33 + fase[i]! * 1.3) * a;
+            } else if (p < 1) {
               // espiral: a poeira de toda a tela gira e se fecha sobre o ponto de repouso
               const ang = (1 - p) * giro[i]!;
               const c = Math.cos(ang);
@@ -122,7 +137,7 @@ export function OvelhaPoeira({ className = "" }: { className?: string }) {
               py = alvoY + ex * s + ey * c;
             }
 
-            if (!reduzir && p >= 1) {
+            if (!reduzir && !pairar && p >= 1) {
               const ddx = px + dx[i]! - mouse.x;
               const ddy = py + dy[i]! - mouse.y;
               const d2 = ddx * ddx + ddy * ddy;
@@ -143,7 +158,7 @@ export function OvelhaPoeira({ className = "" }: { className?: string }) {
             ctx.moveTo(px + r, py);
             ctx.arc(px, py, r, 0, Math.PI * 2);
 
-            if (p >= 1 && Math.abs(rx[i]! - onda) < 0.07) {
+            if (!pairar && p >= 1 && Math.abs(rx[i]! - onda) < 0.07) {
               hx[nh] = px;
               hy[nh] = py;
               hc[nh] = cor;

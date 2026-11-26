@@ -66,7 +66,7 @@ function AreaCallim() {
   if (estado === "carregando") {
     return (
       <Tela>
-        <OvelhaPoeira className="mx-auto w-40" />
+        <OvelhaPoeira pairar className="pointer-events-none absolute h-px w-px" />
         <p className="mt-4 text-sm text-paper/60">Carregando…</p>
       </Tela>
     );
@@ -106,10 +106,11 @@ function FundoOvelha() {
   );
 }
 
-function Tela({ children }: { children: React.ReactNode }) {
+function Tela({ children, fundo = false }: { children: React.ReactNode; fundo?: boolean }) {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
       <div className="tech-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+      {fundo ? <FundoOvelha /> : null}
       <div className="relative z-10 w-full max-w-md">{children}</div>
     </main>
   );
@@ -129,9 +130,10 @@ function Login() {
   }
 
   return (
-    <Tela>
+    <Tela fundo>
       <img src="/logo-ecsilab.png" alt="Écsilab" className="mx-auto h-8 w-auto" />
-      <OvelhaPoeira className="mx-auto mt-6 w-52 sm:w-60" />
+      {/* Antes do login a poeira só paira, esperando para formar a ovelha depois de entrar. */}
+      <OvelhaPoeira pairar className="pointer-events-none absolute h-px w-px" />
       <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-accent">
         Área do cliente
       </p>
