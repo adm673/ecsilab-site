@@ -109,7 +109,6 @@ function FundoOvelha() {
 function Tela({ children }: { children: React.ReactNode }) {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
-      <FundoOvelha />
       <div className="tech-grid pointer-events-none absolute inset-0" aria-hidden="true" />
       <div className="relative z-10 w-full max-w-md">{children}</div>
     </main>
