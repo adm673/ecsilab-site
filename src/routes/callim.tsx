@@ -131,7 +131,13 @@ function Login() {
 
   return (
     <Tela fundo>
-      <img src="/logo-ecsilab.png" alt="Écsilab" className="mx-auto h-8 w-auto" />
+      <a
+        href="/"
+        aria-label="Écsilab, página inicial"
+        className="fixed left-1/2 top-6 z-20 -translate-x-1/2"
+      >
+        <img src="/logo-ecsilab.png" alt="Écsilab" className="h-8 w-auto" />
+      </a>
       {/* Antes do login a poeira só paira, esperando para formar a ovelha depois de entrar. */}
       <OvelhaPoeira pairar className="pointer-events-none absolute h-px w-px" />
       <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-accent">
