@@ -66,7 +66,7 @@ function AreaCallim() {
   if (estado === "carregando") {
     return (
       <Tela>
-        <OvelhaPoeira className="mx-auto w-40" />
+        <OvelhaPoeira pairar className="pointer-events-none absolute h-px w-px" />
         <p className="mt-4 text-sm text-paper/60">Carregando…</p>
       </Tela>
     );
@@ -91,10 +91,26 @@ function AreaCallim() {
   return <Materiais docs={docs} admin={admin} nome={nome} recarregar={recarregarDocs} />;
 }
 
-function Tela({ children }: { children: React.ReactNode }) {
+function FundoOvelha() {
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
+      aria-hidden="true"
+    >
+      <img
+        src="/ovelha-preta.png"
+        alt=""
+        className="w-[min(100%,720px)] max-w-none select-none opacity-70"
+      />
+    </div>
+  );
+}
+
+function Tela({ children, fundo = false }: { children: React.ReactNode; fundo?: boolean }) {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
       <div className="tech-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+      {fundo ? <FundoOvelha /> : null}
       <div className="relative z-10 w-full max-w-md">{children}</div>
     </main>
   );
@@ -114,9 +130,10 @@ function Login() {
   }
 
   return (
-    <Tela>
+    <Tela fundo>
       <img src="/logo-ecsilab.png" alt="Écsilab" className="mx-auto h-8 w-auto" />
-      <OvelhaPoeira className="mx-auto mt-6 w-52 sm:w-60" />
+      {/* Antes do login a poeira só paira, esperando para formar a ovelha depois de entrar. */}
+      <OvelhaPoeira pairar className="pointer-events-none absolute h-px w-px" />
       <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-accent">
         Área do cliente
       </p>
@@ -368,17 +385,18 @@ function Materiais({
           </details>
         ) : null}
 
-        <section className="mt-10" aria-label="Materiais">
-          <h2 className="text-2xl font-bold">Materiais</h2>
-          <p className="mt-1 text-sm text-paper/60">Clique em um card para abrir.</p>
+        <section className="relative mt-10 min-h-[420px]" aria-label="Materiais">
+          <FundoOvelha />
+          <h2 className="relative z-10 text-2xl font-bold">Materiais</h2>
+          <p className="relative z-10 mt-1 text-sm text-paper/60">Clique em um card para abrir.</p>
 
           {ordenados.length === 0 ? (
-            <p className="mt-8 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-paper/70">
+            <p className="relative z-10 mt-8 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-paper/70">
               Os primeiros materiais estão a caminho. Assim que a Écsilab publicar, eles aparecem
               aqui.
             </p>
           ) : (
-            <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="relative z-10 mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {ordenados.map((d, i) => {
                 const amarelo = i % 2 === 0;
                 const data = dataCurta(d.atualizadoEm);
