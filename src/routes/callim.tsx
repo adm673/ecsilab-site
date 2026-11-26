@@ -94,13 +94,13 @@ function AreaCallim() {
 function FundoOvelha() {
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center"
+      className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
       aria-hidden="true"
     >
       <img
         src="/ovelha-preta.png"
         alt=""
-        className="w-[min(88vw,760px)] max-w-none select-none opacity-60"
+        className="w-[min(100%,720px)] max-w-none select-none opacity-70"
       />
     </div>
   );
@@ -285,7 +285,6 @@ function Materiais({
 
   return (
     <>
-      <FundoOvelha />
       <header className="sticky top-0 z-30 border-b border-white/5 bg-ink/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <a href="/" aria-label="Écsilab, página inicial">
@@ -384,17 +383,18 @@ function Materiais({
           </details>
         ) : null}
 
-        <section className="mt-10" aria-label="Materiais">
-          <h2 className="text-2xl font-bold">Materiais</h2>
-          <p className="mt-1 text-sm text-paper/60">Clique em um card para abrir.</p>
+        <section className="relative mt-10 min-h-[420px]" aria-label="Materiais">
+          <FundoOvelha />
+          <h2 className="relative z-10 text-2xl font-bold">Materiais</h2>
+          <p className="relative z-10 mt-1 text-sm text-paper/60">Clique em um card para abrir.</p>
 
           {ordenados.length === 0 ? (
-            <p className="mt-8 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-paper/70">
+            <p className="relative z-10 mt-8 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-paper/70">
               Os primeiros materiais estão a caminho. Assim que a Écsilab publicar, eles aparecem
               aqui.
             </p>
           ) : (
-            <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="relative z-10 mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {ordenados.map((d, i) => {
                 const amarelo = i % 2 === 0;
                 const data = dataCurta(d.atualizadoEm);
