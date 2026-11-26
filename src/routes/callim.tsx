@@ -91,9 +91,25 @@ function AreaCallim() {
   return <Materiais docs={docs} admin={admin} nome={nome} recarregar={recarregarDocs} />;
 }
 
+function FundoOvelha() {
+  return (
+    <div
+      className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center"
+      aria-hidden="true"
+    >
+      <img
+        src="/ovelha-preta.png"
+        alt=""
+        className="w-[min(88vw,760px)] max-w-none select-none opacity-90"
+      />
+    </div>
+  );
+}
+
 function Tela({ children }: { children: React.ReactNode }) {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
+      <FundoOvelha />
       <div className="tech-grid pointer-events-none absolute inset-0" aria-hidden="true" />
       <div className="relative z-10 w-full max-w-md">{children}</div>
     </main>
@@ -270,6 +286,7 @@ function Materiais({
 
   return (
     <>
+      <FundoOvelha />
       <header className="sticky top-0 z-30 border-b border-white/5 bg-ink/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <a href="/" aria-label="Écsilab, página inicial">
